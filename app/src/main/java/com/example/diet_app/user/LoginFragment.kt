@@ -52,6 +52,8 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+            binding.email.text.clear()
+            binding.password.text.clear()
         }
         binding.btnRegister.setOnClickListener(){
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
