@@ -1,7 +1,5 @@
 package com.example.diet_app
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,6 +42,11 @@ class SettingsFragment : Fragment() {
 
         binding.btToDashboard.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToDashboardFragment(email)
+            findNavController().navigate(action)
+        }
+
+        binding.btDelete.setOnClickListener() {
+            val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
             findNavController().navigate(action)
         }
     }
