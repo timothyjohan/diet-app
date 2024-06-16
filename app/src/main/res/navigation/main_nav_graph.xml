@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_settingsFragment"
