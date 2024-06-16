@@ -1,4 +1,4 @@
-package com.example.diet_app
+package com.example.diet_app.menu
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.diet_app.Config
 import com.example.diet_app.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {

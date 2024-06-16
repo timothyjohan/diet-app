@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.diet_app.data.Config
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentRegisterBinding
@@ -55,7 +56,9 @@ class RegisterFragment : Fragment() {
                     }
                 } else {
                     val user = User(email, password, name, gender)
+                    val config = Config(email, true, true)
                     db.userDao().insert(user)
+                    db.configDao().insert(config)
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
                     }
