@@ -61,6 +61,12 @@ class RegisterFragment : Fragment() {
                     }
                 }
             }
+            binding.name.text.clear()
+            binding.email.text.clear()
+            binding.password.text.clear()
+            binding.confirm.text.clear()
+            binding.rdmale.isChecked = false
+            binding.rdfemale.isChecked = false
         }
         binding.btnLogin.setOnClickListener(){
             val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
