@@ -8,13 +8,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.diet_app.Config
+import androidx.room.Room
+import com.example.diet_app.ClassConfig
+import com.example.diet_app.data.Config
+import com.example.diet_app.data.User
+import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentSettingsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
+    private val coroutine = CoroutineScope(Dispatchers.IO)
     lateinit var binding: FragmentSettingsBinding
     private lateinit var email: String
-    private lateinit var config: Config
+//    private lateinit var classConfig: ClassConfig
+    private lateinit var db: AppDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,20 +33,30 @@ class SettingsFragment : Fragment() {
         val navArgs: SettingsFragmentArgs by navArgs<SettingsFragmentArgs>()
         email = navArgs.email
 
-        config = Config(requireContext())
+//        classConfig = ClassConfig(requireContext())
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "DBCalorieCraft").fallbackToDestructiveMigration().build()
 
-        binding.swDaily.isChecked = config.dailyReminder
-        binding.swWeekly.isChecked = config.weeklyReminder
+        coroutine.launch {
+            val existingUser = db.configDao().getConfigByEmail(email)
+            requireActivity().runOnUiThread {
+                binding.swDaily.isChecked = existingUser!!.dailyReminder
+                binding.swWeekly.isChecked = existingUser.weeklyReminder
+            }
 
+        }
+//            classConfig.dailyReminder = binding.swDaily.isChecked
+//            classConfig.weeklyReminder = binding.swWeekly.isChecked
         binding.btSaveSettings.setOnClickListener {
-            config.dailyReminder = binding.swDaily.isChecked
-            config.weeklyReminder = binding.swWeekly.isChecked
+            coroutine.launch {
+                val data = Config(email, binding.swDaily.isChecked, binding.swWeekly.isChecked)
+                return@launch db.configDao().update(data)
+            }
             Toast.makeText(requireContext(), "Settings updated", Toast.LENGTH_SHORT).show()
         }
 
@@ -46,17 +65,21 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-//        binding.btDelete.setOnClickListener {
-//            val user = userDao.getUser(email)
-//            if (user != null) {
-//                userDao.delete(user)
-//                // Navigate back to login or another appropriate action
-//                val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
-//                findNavController().navigate(action)
-//            } else {
-//                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        binding.btDelete.setOnClickListener {
+        coroutine.launch {
+            val existingUser = db.userDao().getUser(email)
+            requireActivity().runOnUiThread {
+                Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
+            }
+            val user = User(existingUser!!.email, existingUser.password, existingUser.name, existingUser.gender)
+            db.userDao().delete(user)
+            val existingSettings = db.configDao().getConfigByEmail(email)
+            val config = Config(email, existingSettings!!.dailyReminder, existingSettings.weeklyReminder)
+            db.configDao().delete(config)
+        }
+            val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
+            findNavController().navigate(action)
+        }
     }
 
 }

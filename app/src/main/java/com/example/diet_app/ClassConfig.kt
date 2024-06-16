@@ -3,7 +3,7 @@ package com.example.diet_app
 import android.content.Context
 import android.content.SharedPreferences
 
-class Config(private val context: Context) {
+class ClassConfig(private val context: Context) {
     private val preferences: SharedPreferences =
         context.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
 

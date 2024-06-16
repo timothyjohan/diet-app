@@ -1,6 +1,7 @@
 package com.example.diet_app.data.source.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -16,4 +17,7 @@ interface ConfigDao {
 
     @Update
     suspend fun update(config: Config)
+
+    @Delete
+    suspend fun delete(config: Config)
 }

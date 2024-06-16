@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private val coroutine = CoroutineScope(Dispatchers.IO)
-    private var users: ArrayList<User> = ArrayList()
     private lateinit var db: AppDatabase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +55,7 @@ class RegisterFragment : Fragment() {
                     }
                 } else {
                     val user = User(email, password, name, gender)
-                    val config = Config(email, true, true)
+                    val config = Config(email, false, false)
                     db.userDao().insert(user)
                     db.configDao().insert(config)
                     requireActivity().runOnUiThread {
