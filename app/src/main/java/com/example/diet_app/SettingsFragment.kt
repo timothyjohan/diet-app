@@ -46,6 +46,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btDelete.setOnClickListener() {
+            // Delete user data
             val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
             findNavController().navigate(action)
         }
