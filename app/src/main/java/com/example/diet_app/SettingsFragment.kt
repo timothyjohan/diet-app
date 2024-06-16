@@ -45,11 +45,17 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.btDelete.setOnClickListener() {
-            // Delete user data
-            val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
-            findNavController().navigate(action)
-        }
+//        binding.btDelete.setOnClickListener {
+//            val user = userDao.getUser(email)
+//            if (user != null) {
+//                userDao.delete(user)
+//                // Navigate back to login or another appropriate action
+//                val action = SettingsFragmentDirections.actionSettingsFragmentToLoginFragment2()
+//                findNavController().navigate(action)
+//            } else {
+//                Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+//            }
+//        }
     }
 
 }
