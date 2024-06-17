@@ -63,14 +63,14 @@ class SettingsFragment : Fragment() {
         binding.btDelete.setOnClickListener {
             coroutine.launch {
                 val existingUser = db.userDao().getUser(email)
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
-                }
                 val user = User(existingUser!!.email, existingUser.password, existingUser.name, existingUser.gender)
                 db.userDao().delete(user)
                 db.currentDao().update(CurrentUser(1, "dummy123", "dummy123", "dummy123", true))
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
             }
-            findNavController().popBackStack()
         }
 
         binding.btLogout.setOnClickListener(){
