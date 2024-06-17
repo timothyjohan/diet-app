@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.databinding.FragmentLoginBinding
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
@@ -40,6 +41,8 @@ class LoginFragment : Fragment() {
                 coroutine.launch {
                     val existingUser = db.userDao().validUser(email, password)
                     if (existingUser != null) {
+                        val newUser = CurrentUser(1,existingUser.email, existingUser.password, existingUser.name, existingUser.gender)
+                        db.currentDao().update(newUser)
                         requireActivity().runOnUiThread {
                             Toast.makeText(requireContext(), "Login Berhasil", Toast.LENGTH_SHORT).show()
                             val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(email)

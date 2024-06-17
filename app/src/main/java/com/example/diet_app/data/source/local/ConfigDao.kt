@@ -9,8 +9,8 @@ import com.example.diet_app.data.Config
 
 @Dao
 interface ConfigDao {
-    @Query("SELECT * FROM config WHERE email = :email")
-    suspend fun getConfigByEmail(email: String): Config?
+    @Query("SELECT * FROM config limit 1")
+    suspend fun getConfigByEmail(): Config
 
     @Insert
     suspend fun insert(config: Config)

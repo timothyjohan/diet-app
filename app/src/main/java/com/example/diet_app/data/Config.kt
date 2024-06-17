@@ -9,7 +9,8 @@ import com.squareup.moshi.JsonClass
 @Entity(tableName = "config")
 data class Config(
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "email") val email: String,
+    @ColumnInfo(name = "id") val id: Int,
+//    @ColumnInfo(name = "email") val email: String,
     @ColumnInfo(name = "dailyReminder") val dailyReminder: Boolean,
     @ColumnInfo(name = "weeklyReminder") val weeklyReminder: Boolean
 )

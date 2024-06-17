@@ -55,9 +55,7 @@ class RegisterFragment : Fragment() {
                     }
                 } else {
                     val user = User(email, password, name, gender)
-                    val config = Config(email, false, false)
                     db.userDao().insert(user)
-                    db.configDao().insert(config)
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
                     }
@@ -71,8 +69,7 @@ class RegisterFragment : Fragment() {
             binding.rdfemale.isChecked = false
         }
         binding.btnLogin.setOnClickListener(){
-            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
 
         return binding.root
