@@ -95,20 +95,36 @@
         android:id="@+id/calculatorFragment"
         android:name="com.example.diet_app.menu.CalculatorFragment"
         android:label="fragment_calculator"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/logFoodFragment"
         android:name="com.example.diet_app.menu.LogFoodFragment"
         android:label="fragment_log_food"
-        tools:layout="@layout/fragment_log_food" />
+        tools:layout="@layout/fragment_log_food" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/recapDailyFragment"
         android:name="com.example.diet_app.menu.RecapDailyFragment"
         android:label="fragment_recap_daily"
-        tools:layout="@layout/fragment_recap_daily" />
+        tools:layout="@layout/fragment_recap_daily" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/recapWeeklyFragment"
         android:name="com.example.diet_app.menu.RecapWeeklyFragment"
         android:label="fragment_recap_weekly"
-        tools:layout="@layout/fragment_recap_weekly" />
+        tools:layout="@layout/fragment_recap_weekly" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
 </navigation>

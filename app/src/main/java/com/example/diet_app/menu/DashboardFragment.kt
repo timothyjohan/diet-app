@@ -82,15 +82,15 @@ class DashboardFragment : Fragment() {
 
     private fun setupForRegisteredUser(email: String) {
         binding.btnCalculator.setOnClickListener {
-            val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
+            val action = DashboardFragmentDirections.actionDashboardFragmentToCalculatorFragment(email)
             findNavController().navigate(action)
         }
         binding.btnDaily.setOnClickListener {
-            val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
+            val action = DashboardFragmentDirections.actionDashboardFragmentToRecapDailyFragment(email)
             findNavController().navigate(action)
         }
         binding.btnFood.setOnClickListener {
-            val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
+            val action = DashboardFragmentDirections.actionDashboardFragmentToLogFoodFragment(email)
             findNavController().navigate(action)
         }
         binding.btSettings.setOnClickListener {
