@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-@Entity(tableName = "users")
-data class User (
+@Entity(tableName = "current")
+data class CurrentUser (
     @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id") val id:Int,
     @ColumnInfo(name = "email") val email:String,
     @ColumnInfo(name = "password") val password:String,
     @ColumnInfo(name = "name") val name:String,

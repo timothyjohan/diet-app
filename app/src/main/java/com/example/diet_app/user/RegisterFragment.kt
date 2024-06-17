@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.diet_app.data.Config
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentRegisterBinding
@@ -18,7 +19,6 @@ import kotlinx.coroutines.launch
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private val coroutine = CoroutineScope(Dispatchers.IO)
-    private var users: ArrayList<User> = ArrayList()
     private lateinit var db: AppDatabase
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,10 +61,15 @@ class RegisterFragment : Fragment() {
                     }
                 }
             }
+            binding.name.text.clear()
+            binding.email.text.clear()
+            binding.password.text.clear()
+            binding.confirm.text.clear()
+            binding.rdmale.isChecked = false
+            binding.rdfemale.isChecked = false
         }
         binding.btnLogin.setOnClickListener(){
-            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
 
         return binding.root
