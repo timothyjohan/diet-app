@@ -48,6 +48,18 @@
         <action
             android:id="@+id/action_dashboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_recapWeeklyFragment"
+            app:destination="@id/recapWeeklyFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_recapDailyFragment"
+            app:destination="@id/recapDailyFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_logFoodFragment"
+            app:destination="@id/logFoodFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -79,4 +91,24 @@
     <action
         android:id="@+id/action_global_settingsFragment"
         app:destination="@id/settingsFragment" />
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="com.example.diet_app.menu.CalculatorFragment"
+        android:label="fragment_calculator"
+        tools:layout="@layout/fragment_calculator" />
+    <fragment
+        android:id="@+id/logFoodFragment"
+        android:name="com.example.diet_app.menu.LogFoodFragment"
+        android:label="fragment_log_food"
+        tools:layout="@layout/fragment_log_food" />
+    <fragment
+        android:id="@+id/recapDailyFragment"
+        android:name="com.example.diet_app.menu.RecapDailyFragment"
+        android:label="fragment_recap_daily"
+        tools:layout="@layout/fragment_recap_daily" />
+    <fragment
+        android:id="@+id/recapWeeklyFragment"
+        android:name="com.example.diet_app.menu.RecapWeeklyFragment"
+        android:label="fragment_recap_weekly"
+        tools:layout="@layout/fragment_recap_weekly" />
 </navigation>
