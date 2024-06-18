@@ -18,16 +18,16 @@ class TimelineViewModel:ViewModel() {
     val posts:LiveData<List<Post>>
         get() = _posts
 
-    fun getPosts(force:Boolean = false){
-        ioScope.launch {
-            _posts.postValue(postRepository.getAllPosts(force))
-        }
-    }
-
-    fun deletePost(post:Post){
-        ioScope.launch {
-            postRepository.deletePost(post)
-            getPosts()
-        }
-    }
+//    fun getPosts(force:Boolean = false){
+//        ioScope.launch {
+//            _posts.postValue(postRepository.getAllPosts(force))
+//        }
+//    }
+//
+//    fun deletePost(post:Post){
+//        ioScope.launch {
+//            postRepository.deletePost(post)
+//            getPosts()
+//        }
+//    }
 }

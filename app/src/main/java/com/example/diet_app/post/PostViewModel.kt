@@ -18,24 +18,24 @@ class PostViewModel:ViewModel() {
     val post: LiveData<Post?>
         get() = _post
 
-    fun getPost(id:Int){
-        ioScope.launch {
-            _post.postValue(postRepository.getPostById(id))
-        }
-    }
-
-    fun createPost(title:String, content:String){
-        ioScope.launch {
-            postRepository.createPost(Post(0, title, content))
-        }
-    }
-
-    fun updatePost(title:String, content:String){
-        ioScope.launch {
-            if(post.value != null){
-                postRepository.updatePost(Post(post.value!!.id, title, content))
-            }
-        }
-    }
+//    fun getPost(id:Int){
+//        ioScope.launch {
+//            _post.postValue(postRepository.getPostById(id))
+//        }
+//    }
+//
+//    fun createPost(title:String, content:String){
+//        ioScope.launch {
+//            postRepository.createPost(Post(0, title, content))
+//        }
+//    }
+//
+//    fun updatePost(title:String, content:String){
+//        ioScope.launch {
+//            if(post.value != null){
+//                postRepository.updatePost(Post(post.value!!.id, title, content))
+//            }
+//        }
+//    }
 
 }
