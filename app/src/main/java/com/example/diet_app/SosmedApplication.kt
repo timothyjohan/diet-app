@@ -33,12 +33,12 @@ class SosmedApplication:Application() {
                 .build()
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl("http://10.0.2.2:3000")
+                .baseUrl("http://192.168.5.101:3666/api/")
                 .build()
 
             postRepository = DefaultPostRepository(
                 roomDb,
-//                retrofit.create(MdpService::class.java)
+                retrofit.create(MdpService::class.java)
             )
         }
     }
