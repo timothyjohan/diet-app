@@ -16,6 +16,9 @@ interface UserDao {
     @Query("select * from users where email=:email")
     fun getUser(email:String): User?
 
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    fun getUserByEmail(email: String): User?
+
     @Insert
     fun insert(user: User)
 
