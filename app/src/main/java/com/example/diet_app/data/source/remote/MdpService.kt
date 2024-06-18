@@ -10,8 +10,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MdpService {
-    @GET("posts")
-    suspend fun getAllPosts(@Query("q") q:String = ""):List<Post>
+    @GET("3rdparty/autocomplete")
+    suspend fun getAutocomplete(@Query("q") q:String = ""):List<String>
 
     @GET("posts/{id}")
     suspend fun getPostById(@Path("id") id:Int):Post

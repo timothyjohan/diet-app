@@ -44,10 +44,10 @@ class TimelineFragment : Fragment() {
             {
                 val action = TimelineFragmentDirections.actionTimelineFragmentToPostFragment(it.id)
                 findNavController().navigate(action)
-                viewModel.getPosts()
+//                viewModel.getPosts()
             },
             {
-                viewModel.deletePost(it)
+//                viewModel.deletePost(it)
             }
         )
         binding.timelineRvTimeline.adapter = postAdapter
@@ -57,7 +57,7 @@ class TimelineFragment : Fragment() {
         }
         viewModel.posts.observe(viewLifecycleOwner, postsObserver)
 
-        viewModel.getPosts()
+//        viewModel.getPosts()
 
         binding.timelineRvTimeline.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -68,11 +68,11 @@ class TimelineFragment : Fragment() {
         binding.addBtnTimeline.setOnClickListener {
             val action = TimelineFragmentDirections.actionTimelineFragmentToPostFragment(-1)
             findNavController().navigate(action)
-            viewModel.getPosts()
+//            viewModel.getPosts()
         }
 
         binding.refreshBtnTimeline.setOnClickListener {
-            viewModel.getPosts(true)
+//            viewModel.getPosts(true)
         }
     }
 
