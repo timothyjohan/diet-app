@@ -91,7 +91,7 @@ class RecapDailyFragment : Fragment() {
             val date = firstDayOfMonth.withDayOfMonth(i)
             val color = if (date == LocalDate.now()) { //aku gatau cara IF nya dari db utk ngambil hari2 yg sukses gimana
                 Color.GREEN                            // tinggal diubah aja condition IF nya
-            } else {
+            } else {                                   // sama tambahin 1 else lagi buat warna merah, ak jg ga paham conditionnya
                 Color.WHITE
             }
             days.add(Day(date, color))
