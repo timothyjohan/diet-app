@@ -3,6 +3,7 @@ package com.example.diet_app.data
 import android.util.Log
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.data.source.remote.MdpService
+import retrofit2.Response
 
 //// versi room
 //class DefaultPostRepository(
@@ -80,10 +81,9 @@ class DefaultPostRepository(
 //        return localDataSource.postDao().getById(id)
 //    }
 //
-//    suspend fun createPost(post: Post) {
-//        val newPost = remoteDataSource.createPost(post)
-//        localDataSource.postDao().insert(newPost)
-//    }
+    suspend fun userLogin(loginRequest: LoginRequest):Response<String> {
+        return remoteDataSource.userLogin(loginRequest)
+    }
 //
 //    suspend fun updatePost(post: Post) {
 //        remoteDataSource.update(post.id, post)
