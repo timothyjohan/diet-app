@@ -5,26 +5,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.diet_app.R
 
-class DaysOfWeekAdapter(private val daysOfWeek: List<String>) : RecyclerView.Adapter<DaysOfWeekAdapter.DayViewHolder>() {
+class DaysOfWeekAdapter(
+    private val daysOfWeek: List<String>
+) : RecyclerView.Adapter<DaysOfWeekAdapter.DayOfWeekViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.calendar_day_of_week_item, parent, false)
-        return DayViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayOfWeekViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+        return DayOfWeekViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DayOfWeekViewHolder, position: Int) {
         holder.bind(daysOfWeek[position])
     }
 
     override fun getItemCount(): Int = daysOfWeek.size
 
-    class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val dayTextView: TextView = itemView as TextView
+    class DayOfWeekViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val textView: TextView = itemView.findViewById(android.R.id.text1)
 
-        fun bind(day: String) {
-            dayTextView.text = day
+        fun bind(dayOfWeek: String) {
+            textView.text = dayOfWeek
         }
     }
 }

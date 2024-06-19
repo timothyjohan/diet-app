@@ -12,7 +12,7 @@ import com.example.diet_app.R
 import java.time.LocalDate
 
 class DatesAdapter(
-    private val days: List<Day>,
+    private var days: List<Day>,
     private val onDayClick: (Day) -> Unit
 ) : RecyclerView.Adapter<DatesAdapter.DayViewHolder>() {
 
@@ -21,12 +21,18 @@ class DatesAdapter(
         return DayViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val day = days[position]
         holder.bind(day, onDayClick)
     }
 
     override fun getItemCount(): Int = days.size
+
+    fun updateDays(newDays: List<Day>) {
+        days = newDays
+        notifyDataSetChanged()
+    }
 
     class DayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val dayNumber: TextView = itemView.findViewById(R.id.day_number)

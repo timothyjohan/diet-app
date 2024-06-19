@@ -25,6 +25,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -38,15 +40,15 @@ class RecapDailyFragment : Fragment() {
     private lateinit var datesAdapter: DatesAdapter
     private val daysOfWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var currentMonth: YearMonth = YearMonth.now()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding =FragmentRecapDailyBinding.inflate(inflater, container, false)
+        binding = FragmentRecapDailyBinding.inflate(inflater, container, false)
         db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "DBCalorieCraft").fallbackToDestructiveMigration().build()
-
-
         return binding.root
     }
 
@@ -55,12 +57,21 @@ class RecapDailyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupMonthHeader()
+
+        binding.btnPrevMonth.setOnClickListener {
+            currentMonth = currentMonth.minusMonths(1)
+            updateCalendar()
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            currentMonth = currentMonth.plusMonths(1)
+            updateCalendar()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupMonthHeader() {
-        val currentMonth = LocalDate.now().month
-        binding.monthTextView.text = currentMonth.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.monthTextView.text = currentMonth.format(DateTimeFormatter.ofPattern("MMMM yyyy"))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -69,26 +80,33 @@ class RecapDailyFragment : Fragment() {
         binding.daysOfWeekRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.daysOfWeekRecyclerView.adapter = daysOfWeekAdapter
 
-        val days = generateCalendarDays()
+        updateCalendar()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateCalendar() {
+        val days = generateCalendarDays(currentMonth)
         datesAdapter = DatesAdapter(days) { day ->
-            // kosongin aja.
+            Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
         }
         binding.datesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.datesRecyclerView.adapter = datesAdapter
+        setupMonthHeader()
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateCalendarDays(): List<Day> {
-        val days = mutableListOf<Day>()
-        val firstDayOfMonth = LocalDate.now().withDayOfMonth(1)
-        val daysInMonth = firstDayOfMonth.lengthOfMonth()
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun generateCalendarDays(month: YearMonth): List<Day> {
+        val days = mutableListOf<Day>()
+        val firstDayOfMonth = month.atDay(1)
+        val daysInMonth = month.lengthOfMonth()
         val firstDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7
+
         for (i in 0 until firstDayOfWeek) {
-            days.add(Day(LocalDate.now(), Color.TRANSPARENT))
+            days.add(Day(LocalDate.MIN, Color.TRANSPARENT))
         }
 
         for (i in 1..daysInMonth) {
-            val date = firstDayOfMonth.withDayOfMonth(i)
+            val date = month.atDay(i)
             val color = if (date == LocalDate.now()) { //aku gatau cara IF nya dari db utk ngambil hari2 yg sukses gimana
                 Color.GREEN                            // tinggal diubah aja condition IF nya
             } else {                                   // sama tambahin 1 else lagi buat warna merah, ak jg ga paham conditionnya
@@ -97,7 +115,10 @@ class RecapDailyFragment : Fragment() {
             days.add(Day(date, color))
         }
 
+        while (days.size % 7 != 0) {
+            days.add(Day(LocalDate.MIN, Color.TRANSPARENT))
+        }
+
         return days
     }
-
 }
