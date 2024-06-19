@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/postFragment">
+    app:startDestination="@id/recapDailyFragment">
 
     <fragment
         android:id="@+id/timelineFragment"
@@ -48,9 +48,6 @@
         <action
             android:id="@+id/action_dashboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_dashboardFragment_to_recapWeeklyFragment"
-            app:destination="@id/recapWeeklyFragment" />
         <action
             android:id="@+id/action_dashboardFragment_to_recapDailyFragment"
             app:destination="@id/recapDailyFragment" />
@@ -117,6 +114,9 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_recapDailyFragment_to_recapWeeklyFragment"
+            app:destination="@id/recapWeeklyFragment" />
     </fragment>
     <fragment
         android:id="@+id/recapWeeklyFragment"
@@ -126,5 +126,8 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_recapWeeklyFragment_to_recapDailyFragment"
+            app:destination="@id/recapDailyFragment" />
     </fragment>
 </navigation>
