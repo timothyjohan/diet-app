@@ -91,7 +91,6 @@ class PostFragment : Fragment() {
             try {
 //                val response = postRepository.getAllPosts().getAllPosts(query)
                 val response:List<String> = postRepository.getAllPosts(query = query)
-                Log.d("coba",response.toString())
 //                val allFoodNames = response.common.map { it.food_name } + response.branded.map { it.food_name }
 
                 withContext(Dispatchers.Main) {
