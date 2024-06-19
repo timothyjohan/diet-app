@@ -65,15 +65,13 @@ class RecapDailyFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupRecyclerView() {
-        // Setup Days of Week RecyclerView
         daysOfWeekAdapter = DaysOfWeekAdapter(daysOfWeek)
         binding.daysOfWeekRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.daysOfWeekRecyclerView.adapter = daysOfWeekAdapter
 
-        // Setup Dates RecyclerView
         val days = generateCalendarDays()
         datesAdapter = DatesAdapter(days) { day ->
-            Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
+            // kosongin aja.
         }
         binding.datesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.datesRecyclerView.adapter = datesAdapter
@@ -84,10 +82,9 @@ class RecapDailyFragment : Fragment() {
         val firstDayOfMonth = LocalDate.now().withDayOfMonth(1)
         val daysInMonth = firstDayOfMonth.lengthOfMonth()
 
-        // Tambahkan hari kosong di awal bulan jika bulan tidak dimulai pada hari Minggu
         val firstDayOfWeek = firstDayOfMonth.dayOfWeek.value % 7
         for (i in 0 until firstDayOfWeek) {
-            days.add(Day(LocalDate.now(), Color.TRANSPARENT)) // Tambahkan hari kosong
+            days.add(Day(LocalDate.now(), Color.TRANSPARENT))
         }
 
         for (i in 1..daysInMonth) {
