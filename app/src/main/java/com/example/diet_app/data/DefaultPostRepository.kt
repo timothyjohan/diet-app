@@ -1,6 +1,7 @@
 package com.example.diet_app.data
 
 import android.util.Log
+import com.example.diet_app.data.source.RegisterResponse
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.data.source.remote.MdpService
 import retrofit2.Response
@@ -84,6 +85,15 @@ class DefaultPostRepository(
     suspend fun userLogin(loginRequest: LoginRequest):Response<String> {
         return remoteDataSource.userLogin(loginRequest)
     }
+
+    suspend fun addUser(registerRequest: RegisterRequest): Response<RegisterResponse> {
+        return remoteDataSource.addUser(registerRequest)
+    }
+
+//    suspend fun addUser(email:String, password:String, name:String,gender:Boolean, ):Response<RegisterRequest> {
+//        val registerRequest = RegisterRequest(email, password, name, gender)
+//        return remoteDataSource.addUser(registerRequest)
+//    }
 //
 //    suspend fun updatePost(post: Post) {
 //        remoteDataSource.update(post.id, post)

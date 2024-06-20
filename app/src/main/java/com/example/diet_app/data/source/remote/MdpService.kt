@@ -2,6 +2,8 @@ package com.example.diet_app.data.source.remote
 
 import com.example.diet_app.data.LoginRequest
 import com.example.diet_app.data.Post
+import com.example.diet_app.data.RegisterRequest
+import com.example.diet_app.data.source.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -20,6 +22,9 @@ interface MdpService {
 
     @POST("user/login")
     suspend fun userLogin(@Body loginRequest: LoginRequest):Response<String>
+
+    @POST("user/add")
+    suspend fun addUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
 
     @PUT("posts/{id}")
     suspend fun update(@Path("id") id:Int, @Body post:Post):Post
