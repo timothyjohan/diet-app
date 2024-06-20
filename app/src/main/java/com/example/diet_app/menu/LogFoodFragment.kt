@@ -1,73 +1,58 @@
 package com.example.diet_app.menu
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.diet_app.R
-import com.example.diet_app.SosmedApplication
-import com.example.diet_app.data.source.remote.MdpService
 import com.example.diet_app.databinding.FragmentLogFoodBinding
-import com.example.diet_app.post.ClassFood
-import com.example.diet_app.post.FoodAdapter
-import com.example.diet_app.post.PostFragmentArgs
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.diet_app.menu.ClassFood
+import com.example.diet_app.menu.FoodAdapter
+import com.example.diet_app.menu.FoodViewModel
 
 class LogFoodFragment : Fragment() {
 
-    lateinit var binding: FragmentLogFoodBinding
-    //    val viewModel:PostViewModel by viewModels<PostViewModel>()
-    val navArgs: PostFragmentArgs by navArgs()
-    private val postRepository = SosmedApplication.postRepository
-
+    private lateinit var viewModel: FoodViewModel
+    private lateinit var binding: FragmentLogFoodBinding
+    private lateinit var foodAdapter: FoodAdapter
+    private lateinit var logFoodAdapter: FoodAdapter
+    private val loggedFoods = mutableListOf<ClassFood>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_log_food,
-            container,
-            false
-        )
-
-//        binding.viewModel = viewModel
+        binding = FragmentLogFoodBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this).get(FoodViewModel::class.java)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        foodAdapter = FoodAdapter { food ->
+            logFood(food)
+        }
+        binding.rvFood.adapter = foodAdapter
+        binding.rvFood.layoutManager = LinearLayoutManager(context)
+
+        // Observe foodList LiveData from the ViewModel
+        viewModel.foodList.observe(viewLifecycleOwner, Observer { foods ->
+            foods?.let {
+                foodAdapter.setFoodList(it)
+            }
+        })
+
+        logFoodAdapter = FoodAdapter { /* No action needed for logging food */ }
+        logFoodAdapter.setFoodList(loggedFoods)
+        binding.rvListFood.adapter = logFoodAdapter
+        binding.rvListFood.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }
 
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val classFood = ArrayList<ClassFood>()
-        classFood.add(ClassFood("Ayam", 1234.0, 123.0, 123.0,4123.0))
-        classFood.add(ClassFood("Ikan", 1234.0, 123.0, 123.0,4123.0))
-        val adapter = FoodAdapter(classFood)
-        binding.rvFood.adapter = adapter
-        binding.rvFood.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        val id = navArgs.postId
-//        if(id >= 0){
-//            viewModel.getPost(id)
-//        }
-
-
+    private fun logFood(food: ClassFood) {
+        loggedFoods.add(food)
+        logFoodAdapter.setFoodList(loggedFoods)
     }
-
 }

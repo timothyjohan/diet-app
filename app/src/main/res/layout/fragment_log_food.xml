@@ -5,14 +5,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.diet_app.post.PostViewModel" />
+            type="com.example.diet_app.menu.FoodViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".post.PostFragment">
+        tools:context=".post.LogFoodFragment">
 
         <EditText
             android:id="@+id/title_et_post"
