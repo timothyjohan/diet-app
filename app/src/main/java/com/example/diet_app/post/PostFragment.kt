@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diet_app.R
 import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.source.remote.MdpService
@@ -48,30 +49,22 @@ class PostFragment : Fragment() {
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val classFood = ArrayList<ClassFood>()
+        classFood.add(ClassFood("Ayam", 1234.0, 123.0, 123.0,4123.0))
+        classFood.add(ClassFood("Ikan", 1234.0, 123.0, 123.0,4123.0))
+        val adapter = FoodAdapter(classFood)
+        binding.rvFood.adapter = adapter
+        binding.rvFood.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         val id = navArgs.postId
 //        if(id >= 0){
 //            viewModel.getPost(id)
 //        }
 
-        binding.cancelBtnPost.setOnClickListener {
-            findNavController().popBackStack()
-        }
-        binding.processBtnPost.setOnClickListener {
-            val title = binding.titleEtPost.text.toString()
-            val content = binding.contentEtPost.text.toString()
-
-//            if(id >= 0){
-//                viewModel.updatePost(title, content)
-//            }
-//            else{
-//                viewModel.createPost(title, content)
-//            }
-
-            findNavController().popBackStack()
-        }
         binding.titleEtPost.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Do nothing

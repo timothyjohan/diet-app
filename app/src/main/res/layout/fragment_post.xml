@@ -24,13 +24,13 @@
             android:ems="10"
             android:hint="Title"
             android:inputType="text"
+            android:text="egg"
             app:layout_constraintBottom_toTopOf="@+id/content_et_post"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:text="@{viewModel.post.title}"/>
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
             android:id="@+id/content_et_post"
@@ -82,10 +82,35 @@
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="409dp"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/process_btn_post" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_food"
+            android:layout_width="409dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="-20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cancel_btn_post" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-250dp"
+            android:layout_marginBottom="-50dp"
+            android:text="LOG FOOD :"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
