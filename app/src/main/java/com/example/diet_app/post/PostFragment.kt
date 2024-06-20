@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 class PostFragment : Fragment() {
 
     lateinit var binding: FragmentPostBinding
-    val viewModel:PostViewModel by viewModels<PostViewModel>()
+//    val viewModel:PostViewModel by viewModels<PostViewModel>()
     val navArgs:PostFragmentArgs by navArgs()
     private val postRepository = SosmedApplication.postRepository
 
@@ -43,7 +43,7 @@ class PostFragment : Fragment() {
             false
         )
 
-        binding.viewModel = viewModel
+//        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         return binding.root
