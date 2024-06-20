@@ -31,8 +31,9 @@ class SosmedApplication:Application() {
             val moshi = Moshi.Builder()
                 .add(KotlinJsonAdapterFactory())
                 .build()
+            val lenientMoshiConverterFactory = MoshiConverterFactory.create(moshi).asLenient()
             val retrofit = Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(lenientMoshiConverterFactory)
                 .baseUrl("http://192.168.5.101:3666/api/")
                 .build()
 
