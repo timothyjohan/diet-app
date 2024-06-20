@@ -1,7 +1,5 @@
 package com.example.diet_app.data
 
-import android.util.Log
-import com.example.diet_app.data.source.RegisterResponse
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.data.source.remote.MdpService
 import retrofit2.Response

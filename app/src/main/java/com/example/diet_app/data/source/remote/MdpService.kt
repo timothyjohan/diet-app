@@ -3,7 +3,7 @@ package com.example.diet_app.data.source.remote
 import com.example.diet_app.data.LoginRequest
 import com.example.diet_app.data.Post
 import com.example.diet_app.data.RegisterRequest
-import com.example.diet_app.data.source.RegisterResponse
+import com.example.diet_app.data.RegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
