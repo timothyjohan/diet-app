@@ -66,7 +66,8 @@ class LoginFragment : Fragment() {
                             handler.post {
 //                                Toast.makeText(requireContext(), "Username or password incorrect", Toast.LENGTH_SHORT).show()
                                 Toast.makeText(requireContext(), "Logged in", Toast.LENGTH_SHORT).show()
-
+                                val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(binding.email.text.toString())
+                                findNavController().navigate(action)
 
                             }
 
