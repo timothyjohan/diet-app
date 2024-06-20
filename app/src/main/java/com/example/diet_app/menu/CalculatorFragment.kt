@@ -7,32 +7,41 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentCalculatorBinding
+import com.example.diet_app.menu.CalculatorViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
     private lateinit var userEmail: String
     private var user: User? = null
+
+    private val viewModel: CalculatorViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCalculatorBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         db = Room.databaseBuilder(
             requireContext(),
             AppDatabase::class.java, "DBCalorieCraft"
         ).fallbackToDestructiveMigration().build()
 
+        // Get the arguments passed from DashboardFragment
         userEmail = CalculatorFragmentArgs.fromBundle(requireArguments()).email
 
         setupActivitySpinner()
@@ -43,7 +52,7 @@ class CalculatorFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigateUp()  // Navigate back to the previous fragment
         }
 
         return binding.root
@@ -63,7 +72,7 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun loadUserData() {
-        coroutineScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             user = db.userDao().getUserByEmail(userEmail)
             if (user == null) {
                 requireActivity().runOnUiThread {
@@ -88,26 +97,6 @@ class CalculatorFragment : Fragment() {
             return
         }
 
-        val gender = user!!.gender
-        val bmr = if (gender) {
-            88.362 + (13.397 * weight) + (4.799 * height)
-        } else {
-            447.593 + (9.247 * weight) + (3.098 * height)
-        }
-
-        val tdee = when (activityLevel) {
-            "Sedentary (office job)" -> bmr * 1.2
-            "Light Exercise (1-2 days/week)" -> bmr * 1.375
-            "Moderate Exercise (3-5 days/week)" -> bmr * 1.55
-            "Heavy Exercise (6-7 days/week)" -> bmr * 1.725
-            "Athlete (2x per day)" -> bmr * 1.9
-            else -> bmr
-        }
-
-        requireActivity().runOnUiThread {
-            binding.tvResult.visibility = View.VISIBLE
-            binding.tvResultPrint.visibility = View.VISIBLE
-            binding.tvResultPrint.text = "Your TDEE is %.2f calories per day.".format(tdee)
-        }
+        viewModel.calculateTDEE(weight, height, user!!.gender, activityLevel)
     }
 }
