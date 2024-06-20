@@ -86,7 +86,7 @@
                 android:visibility="visible"
                 app:layout_constraintStart_toEndOf="@+id/tv_result"
                 app:layout_constraintTop_toBottomOf="@+id/btn_calculate"
-                android:text="@{String.valueOf(viewModel.tdeeResult)}" />
+                app:tdeeResultText="@{viewModel.tdeeResult}" />
 
             <EditText
                 android:id="@+id/et_weight"
