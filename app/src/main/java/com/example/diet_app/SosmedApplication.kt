@@ -33,7 +33,7 @@ class SosmedApplication:Application() {
                 .build()
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .baseUrl("http://192.168.5.101:3666/api/")
+                .baseUrl("http://192.168.0.108:3666/api/")
                 .build()
 
             postRepository = DefaultPostRepository(
