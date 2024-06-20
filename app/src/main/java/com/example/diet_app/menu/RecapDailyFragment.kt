@@ -1,29 +1,29 @@
 package com.example.diet_app.menu
 
+import android.R
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import androidx.navigation.fragment.navArgs
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.room.Room
-import com.example.diet_app.data.CurrentUser
+import com.example.diet_app.SosmedApplication
+import com.example.diet_app.data.CalendarRequest
+import com.example.diet_app.data.CalendarResponse
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
-import com.example.diet_app.databinding.FragmentCalculatorBinding
-import com.example.diet_app.databinding.FragmentLogFoodBinding
 import com.example.diet_app.databinding.FragmentRecapDailyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -33,6 +33,13 @@ class RecapDailyFragment : Fragment() {
     private val coroutine = CoroutineScope(Dispatchers.IO)
     private var users: ArrayList<User> = ArrayList()
     private lateinit var db: AppDatabase
+    private val postRepository = SosmedApplication.postRepository
+    val navArgs: RecapDailyFragmentArgs by navArgs()
+    @RequiresApi(Build.VERSION_CODES.O)
+    var month = LocalDate.now().monthValue.toString()
+    var before = 1
+    @RequiresApi(Build.VERSION_CODES.O)
+    var after = LocalDate.MAX
 
     private lateinit var daysOfWeekAdapter: DaysOfWeekAdapter
     private lateinit var datesAdapter: DatesAdapter
@@ -69,7 +76,7 @@ class RecapDailyFragment : Fragment() {
         binding.daysOfWeekRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.daysOfWeekRecyclerView.adapter = daysOfWeekAdapter
 
-        val days = generateCalendarDays()
+        val days = generateCalendarDays(CalendarRequest(navArgs.email,before,after))
         datesAdapter = DatesAdapter(days) { day ->
             // kosongin aja.
         }
@@ -77,7 +84,7 @@ class RecapDailyFragment : Fragment() {
         binding.datesRecyclerView.adapter = datesAdapter
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateCalendarDays(): List<Day> {
+    private fun generateCalendarDays(query: CalendarRequest): List<Day> {
         val days = mutableListOf<Day>()
         val firstDayOfMonth = LocalDate.now().withDayOfMonth(1)
         val daysInMonth = firstDayOfMonth.lengthOfMonth()
@@ -87,17 +94,40 @@ class RecapDailyFragment : Fragment() {
             days.add(Day(LocalDate.now(), Color.TRANSPARENT))
         }
 
-        for (i in 1..daysInMonth) {
-            val date = firstDayOfMonth.withDayOfMonth(i)
-            val color = if (date == LocalDate.now()) { //aku gatau cara IF nya dari db utk ngambil hari2 yg sukses gimana
-                Color.GREEN                            // tinggal diubah aja condition IF nya
-            } else {                                   // sama tambahin 1 else lagi buat warna merah, ak jg ga paham conditionnya
-                Color.WHITE
+        coroutine.launch {
+            val calendarRequest = CalendarRequest(navArgs.email,before,after)
+            calendarColor(calendarRequest, days)
+            for (i in 1..daysInMonth) {
+                val date = firstDayOfMonth.withDayOfMonth(i)
+                val color = if (date == LocalDate.now()) { //aku gatau cara IF nya dari db utk ngambil hari2 yg sukses gimana
+                    Color.GREEN                            // tinggal diubah aja condition IF nya
+                } else {                                   // sama tambahin 1 else lagi buat warna merah, ak jg ga paham conditionnya
+                    Color.WHITE
+                }
+                days.add(Day(date, color))
             }
-            days.add(Day(date, color))
         }
-
         return days
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun calendarColor(query: CalendarRequest, days: MutableList<Day>): Response<CalendarResponse>{
+        lateinit var response: Response<CalendarResponse>
+        val firstDayOfMonth = LocalDate.now().withDayOfMonth(1)
+        val daysInMonth = firstDayOfMonth.lengthOfMonth()
+        coroutine.launch {
+            response = postRepository.getDates(query)
+            for (i in 1..daysInMonth) {
+                val date = firstDayOfMonth.withDayOfMonth(i)
+                val color = if (date == LocalDate.now()) { //aku gatau cara IF nya dari db utk ngambil hari2 yg sukses gimana
+                    Color.GREEN                            // tinggal diubah aja condition IF nya
+                } else {                                   // sama tambahin 1 else lagi buat warna merah, ak jg ga paham conditionnya
+                    Color.WHITE
+                }
+                days.add(Day(date, color))
+            }
+        }
+        return response
     }
 
 }
