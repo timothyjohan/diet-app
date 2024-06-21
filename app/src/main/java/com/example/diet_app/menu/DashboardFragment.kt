@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Room
+import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.Config
 import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.source.local.AppDatabase
@@ -49,7 +50,6 @@ class DashboardFragment : Fragment() {
                     name = navArgs.name.toString()
                     gender = navArgs.gender.toString()
                     val jk = if(gender=="Male"){true}else{false}
-//                    Log.d("email", email)
                     db.currentDao().update(CurrentUser(1, email, password, name, jk))
                 }catch (e:Exception){
                     val curr = db.currentDao().getUser()
@@ -61,6 +61,12 @@ class DashboardFragment : Fragment() {
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Loaded ${email}", Toast.LENGTH_SHORT).show()
                     setupUI()
+                }
+
+                try {
+
+                }catch (e:Exception){
+
                 }
 
             } catch (e: Exception) {

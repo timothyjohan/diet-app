@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Room
+import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
@@ -53,6 +54,17 @@ class CalculatorFragment : Fragment() {
 
         binding.btnCalculate.setOnClickListener {
             calculateTDEE()
+            if(binding.tvResultPrint.text.toString()!=""){
+                val temp = binding.tvResultPrint.text.toString().split(" ")
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val userData = SosmedApplication.postRepository.updateCalories(
+                        email,
+                        temp[0].toInt()
+                    )
+                }
+            }
+//            Toast.makeText(requireContext(), binding.tvResultPrint.text.toString(), Toast.LENGTH_SHORT).show()
         }
 
         binding.btnBack.setOnClickListener {
