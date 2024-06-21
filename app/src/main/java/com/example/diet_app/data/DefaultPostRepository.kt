@@ -36,8 +36,8 @@ class DefaultPostRepository(
     }
 
 
-    suspend fun getDates(calendarRequest:CalendarRequest): Response<CalendarResponse> {
-        return remoteDataSource.getDates(calendarRequest)
+    suspend fun getDates(calendarRequest:CalendarRequest): Response<List<CalendarResponse>> {
+        return remoteDataSource.getDates(calendarRequest.email,calendarRequest.before,calendarRequest.after)
     }
     suspend fun getDatesReport(calendarRequest:CalendarRequest): Response<List<String>> {
         return remoteDataSource.getDatesReport(calendarRequest)
