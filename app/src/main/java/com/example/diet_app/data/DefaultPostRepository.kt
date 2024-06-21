@@ -39,6 +39,9 @@ class DefaultPostRepository(
     suspend fun getDates(calendarRequest:CalendarRequest): Response<CalendarResponse> {
         return remoteDataSource.getDates(calendarRequest)
     }
+    suspend fun getDatesReport(calendarRequest:CalendarRequest): Response<List<String>> {
+        return remoteDataSource.getDatesReport(calendarRequest)
+    }
 
 //    suspend fun addUser(email:String, password:String, name:String,gender:Boolean, ):Response<RegisterRequest> {
 //        val registerRequest = RegisterRequest(email, password, name, gender)

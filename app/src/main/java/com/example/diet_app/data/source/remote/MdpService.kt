@@ -43,4 +43,6 @@ interface MdpService {
 
     @GET("foods/dates")
     suspend fun getDates(@Query("email") email: CalendarRequest): Response<CalendarResponse>
+    @GET("foods/dates")
+    suspend fun getDatesReport(@Query("email") datesReport: CalendarRequest): Response<List<String>>
 }
