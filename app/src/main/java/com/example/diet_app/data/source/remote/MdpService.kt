@@ -1,5 +1,7 @@
 package com.example.diet_app.data.source.remote
 
+import com.example.diet_app.data.CalendarRequest
+import com.example.diet_app.data.CalendarResponse
 import com.example.diet_app.data.LoginRequest
 import com.example.diet_app.data.Post
 import com.example.diet_app.data.RegisterRequest
@@ -31,4 +33,7 @@ interface MdpService {
 
     @DELETE("posts/{id}")
     suspend fun delete(@Path("id") id:Int):Post
+
+    @GET("foods/dates")
+    suspend fun getDates(@Query("email") email: CalendarRequest): Response<CalendarResponse>
 }
