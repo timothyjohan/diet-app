@@ -69,6 +69,9 @@
             android:name="gender"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_tutorial"
+            app:destination="@id/tutorial" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -144,5 +147,17 @@
         <action
             android:id="@+id/action_recapWeeklyFragment_to_recapDailyFragment"
             app:destination="@id/recapDailyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tutorial"
+        android:name="com.example.diet_app.menu.Tutorial"
+        android:label="fragment_tutorial"
+        tools:layout="@layout/fragment_tutorial" >
+        <action
+            android:id="@+id/action_tutorial_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
 </navigation>
