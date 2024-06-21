@@ -54,9 +54,9 @@ class PostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val classFood = ArrayList<ClassFood>()
-        classFood.add(ClassFood("Ayam", 1234.0, 123.0, 123.0,4123.0))
-        classFood.add(ClassFood("Ikan", 1234.0, 123.0, 123.0,4123.0))
+        val classFood = ArrayList<String>()
+        classFood.add("Ayam")
+        classFood.add("Ikan")
         val adapter = FoodAdapter(classFood)
         binding.rvFood.adapter = adapter
         binding.rvFood.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
