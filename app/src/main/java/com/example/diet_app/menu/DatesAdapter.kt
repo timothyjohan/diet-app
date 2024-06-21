@@ -21,6 +21,7 @@ class DatesAdapter(
         return DayViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
         val day = days[position]
         holder.bind(day, onDayClick)
