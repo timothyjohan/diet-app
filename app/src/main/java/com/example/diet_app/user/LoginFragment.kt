@@ -59,18 +59,17 @@ class LoginFragment : Fragment() {
                         if(response.code() == 401){
                             handler.post {
                                 Toast.makeText(requireContext(), "Username or password incorrect", Toast.LENGTH_SHORT).show()
-
-
                             }
                         }else{
+                            val user:CurrentUser = postRepository.getUser(email)
+                            db.currentDao().update(CurrentUser(1, email, password, user.name, user.gender))
+//                            Log.d("NamaUser", user.email)
+                            val jk = if(user.gender){"Male"}else{"Female"}
                             handler.post {
-//                                Toast.makeText(requireContext(), "Username or password incorrect", Toast.LENGTH_SHORT).show()
                                 Toast.makeText(requireContext(), "Logged in", Toast.LENGTH_SHORT).show()
-                                val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(binding.email.text.toString())
+                                val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(binding.email.text.toString(), user.password, user.name, jk)
                                 findNavController().navigate(action)
-
                             }
-
                         }
                     }catch (e: Exception){
                         e.printStackTrace()

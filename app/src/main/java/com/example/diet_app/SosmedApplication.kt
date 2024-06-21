@@ -34,7 +34,9 @@ class SosmedApplication:Application() {
             val lenientMoshiConverterFactory = MoshiConverterFactory.create(moshi).asLenient()
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(lenientMoshiConverterFactory)
-                .baseUrl("http://chisel-southern-father.glitch.me/api/")
+
+                .baseUrl("https://chisel-southern-father.glitch.me/api/")
+
                 .build()
 
             postRepository = DefaultPostRepository(

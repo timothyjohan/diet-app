@@ -2,6 +2,7 @@ package com.example.diet_app.data.source.remote
 
 import com.example.diet_app.data.CalendarRequest
 import com.example.diet_app.data.CalendarResponse
+import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.LoginRequest
 import com.example.diet_app.data.Post
 import com.example.diet_app.data.RegisterRequest
@@ -24,6 +25,12 @@ interface MdpService {
 
     @POST("user/login")
     suspend fun userLogin(@Body loginRequest: LoginRequest):Response<String>
+
+    @GET("user/getUser")
+    suspend fun getUser(@Query("email")email:String): CurrentUser
+
+    @DELETE("user/{email}")
+    suspend fun deleteUser(@Path("email")email:String): CurrentUser
 
     @POST("user/add")
     suspend fun addUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
