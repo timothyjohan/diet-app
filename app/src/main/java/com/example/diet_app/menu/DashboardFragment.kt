@@ -24,7 +24,7 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var email: String
     private lateinit var password: String
-    private lateinit var name: String
+    var name: String = ""
     private lateinit var gender: String
     private val coroutine = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
@@ -54,6 +54,9 @@ class DashboardFragment : Fragment() {
                 }catch (e:Exception){
                     val curr = db.currentDao().getUser()
                     email = curr!!.email
+                    password = curr.password
+                    name = curr.name
+                    gender = if(curr.gender){"Male"}else{"Female"}
                 }
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Loaded ${email}", Toast.LENGTH_SHORT).show()
@@ -81,8 +84,7 @@ class DashboardFragment : Fragment() {
             } else {
                 setupForRegisteredUser(it)
             }
-            binding.tvWelcome.text = "Welcome, $email"
-
+            binding.tvWelcome.text = "Welcome, $name"
         }
     } private fun setupForDummyUser() {
         binding.btSettings.setOnClickListener {

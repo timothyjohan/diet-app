@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentCalculatorBinding
@@ -24,7 +25,7 @@ class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
     private lateinit var db: AppDatabase
     private lateinit var userEmail: String
-    private var user: User? = null
+    private var user: CurrentUser? = null
 
     private val viewModel: CalculatorViewModel by viewModels()
 
@@ -73,8 +74,8 @@ class CalculatorFragment : Fragment() {
 
     private fun loadUserData() {
         CoroutineScope(Dispatchers.IO).launch {
-            user = db.userDao().getUserByEmail(userEmail)
-            if (user == null) {
+            val curr = db.currentDao().getUser()
+            if (curr == null) {
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
                 }
