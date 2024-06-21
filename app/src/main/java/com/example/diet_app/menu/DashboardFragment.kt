@@ -99,6 +99,9 @@ class DashboardFragment : Fragment() {
         binding.btnFood.setOnClickListener {
             navigateToLoginFragment()
         }
+        binding.btTutorial.setOnClickListener {
+            navigateToLoginFragment()
+        }
     }
 
     private fun setupForRegisteredUser(email: String) {
@@ -115,6 +118,10 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.btSettings.setOnClickListener {
+            val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
+            findNavController().navigate(action)
+        }
+        binding.btTutorial.setOnClickListener {
             val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
             findNavController().navigate(action)
         }

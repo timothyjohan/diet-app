@@ -66,7 +66,8 @@ class SettingsFragment : Fragment() {
 //                val existingUser = db.userDao().getUser(email)
 //                val user = User(existingUser!!.email, existingUser.password, existingUser.name, existingUser.gender)
 //                db.userDao().delete(user)
-                db.currentDao().update(CurrentUser(1, "dummy123", "dummy123", "dummy123", true))
+                val curr = CurrentUser(1, "dummy123", "dummy123", "dummy123", true)
+                db.currentDao().update(curr)
                 SosmedApplication.postRepository.deleteUser(email)
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
@@ -77,7 +78,8 @@ class SettingsFragment : Fragment() {
 
         binding.btLogout.setOnClickListener(){
             coroutine.launch {
-                db.currentDao().update(CurrentUser(1, "dummy123", "dummy123", "dummy123", true))
+                val curr = CurrentUser(1, "dummy123", "dummy123", "dummy123", true)
+                db.currentDao().update(curr)
                 requireActivity().runOnUiThread(){
                     Toast.makeText(requireContext(), "Log out", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
