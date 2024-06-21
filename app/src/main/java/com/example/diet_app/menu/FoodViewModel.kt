@@ -16,8 +16,8 @@ data class Post(val title: String, val content: String)
 
 class FoodViewModel : ViewModel() {
 
-    private val _foodList = MutableLiveData<List<ClassFood>>()
-    val foodList: LiveData<List<ClassFood>> get() = _foodList
+    private val _foodList = MutableLiveData<List<String>>()
+    val foodList: LiveData<List<String>> get() = _foodList
 
     init {
         loadDummyData()
@@ -25,18 +25,16 @@ class FoodViewModel : ViewModel() {
 
     private fun loadDummyData() {
         val dummyFoods = listOf(
-            ClassFood("Apple", 52.0, 0.2, 0.3, 14.0),
-            ClassFood("Banana", 89.0, 0.3, 1.1, 23.0),
-            ClassFood("Carrot", 41.0, 0.2, 0.9, 10.0),
-            ClassFood("Donut", 452.0, 25.0, 4.9, 51.0)
+            "Apple",
+            "Banana"
         )
         _foodList.value = dummyFoods
     }
 }
 
 //class FoodViewModel : ViewModel() {
-//    private val _foodItems = MutableLiveData<List<ClassFood>>()
-//    val foodItems: LiveData<List<ClassFood>> get() = _foodItems
+//    private val _foodItems = MutableLiveData<List<String>>()
+//    val foodItems: LiveData<List<String>> get() = _foodItems
 //
 //    private val _post = MutableLiveData<Post>()
 //    val post: LiveData<Post> get() = _post
@@ -58,7 +56,7 @@ class FoodViewModel : ViewModel() {
 //                if (responseCode == HttpURLConnection.HTTP_OK) {
 //                    val response = httpURLConnection.inputStream.bufferedReader().use { it.readText() }
 //                    val jsonObject = JSONObject(response)
-//                    val foodItem = ClassFood(
+//                    val foodItem = String(
 //                        foodName = jsonObject.getString("food_name"),
 //                        calories = jsonObject.getDouble("calories"),
 //                        fats = jsonObject.getDouble("fats"),
