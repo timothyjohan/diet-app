@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.room.Room
@@ -72,6 +73,10 @@ class RecapDailyFragment : Fragment() {
 
         // Setup dates RecyclerView
         setupRecyclerView()
+
+        binding.btBacktoDashboard.setOnClickListener(){
+            findNavController().navigateUp()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
