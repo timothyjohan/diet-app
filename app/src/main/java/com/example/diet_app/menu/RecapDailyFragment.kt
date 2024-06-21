@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -61,17 +62,14 @@ class RecapDailyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Setup month header and buttons
         binding.monthTextView.text = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
         binding.root.findViewById<Button>(R.id.prevMonthButton).setOnClickListener { changeMonth(-1) }
         binding.root.findViewById<Button>(R.id.nextMonthButton).setOnClickListener { changeMonth(1) }
 
-        // Setup days of the week RecyclerView
         daysOfWeekAdapter = DaysOfWeekAdapter(daysOfWeek)
         binding.daysOfWeekRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.daysOfWeekRecyclerView.adapter = daysOfWeekAdapter
 
-        // Setup dates RecyclerView
         setupRecyclerView()
 
         binding.btBacktoDashboard.setOnClickListener(){
@@ -102,10 +100,9 @@ class RecapDailyFragment : Fragment() {
                 days.add(Day(date, color))
             }
 
-            // Update the adapter on the main thread
             requireActivity().runOnUiThread {
                 datesAdapter = DatesAdapter(days) { day ->
-                    // Handle day click event
+                    Toast.makeText(requireContext(), "${day.date}", Toast.LENGTH_SHORT).show()
                 }
                 binding.datesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
                 binding.datesRecyclerView.adapter = datesAdapter
