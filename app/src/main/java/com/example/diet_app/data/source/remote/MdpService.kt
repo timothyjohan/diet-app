@@ -30,7 +30,7 @@ interface MdpService {
     suspend fun getUser(@Query("email")email:String): CurrentUser
 
     @DELETE("user/{email}")
-    suspend fun deleteUser(@Path("email")email:String): CurrentUser
+    suspend fun deleteUser(@Path("email")email:String): String
 
     @POST("user/add")
     suspend fun addUser(@Body registerRequest: RegisterRequest): Response<RegisterResponse>
