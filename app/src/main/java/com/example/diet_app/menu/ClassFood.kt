@@ -5,5 +5,6 @@ data class ClassFood(
     val calories: Double,
     val fats: Double,
     val protein: Double,
-    val carbs: Double
+    val carbs: Double,
+    val img:String
 )
