@@ -11,13 +11,10 @@ import com.example.diet_app.data.CurrentUser
 interface CurrentDao {
     @Query("select * from current limit 1")
     fun getUser(): CurrentUser?
-
 //    @Query("select * from users where email=:email")
 //    fun getUser(email:String): User?
-
     @Insert
     fun insert(current: CurrentUser)
-
     @Delete
     fun delete(current: CurrentUser)
     @Update

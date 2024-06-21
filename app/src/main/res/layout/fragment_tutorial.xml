@@ -8,7 +8,7 @@
     tools:context=".menu.Tutorial">
 
     <ImageView
-        android:id="@+id/ivRecap"
+        android:id="@+id/ivSetting"
         android:layout_width="118dp"
         android:layout_height="182dp"
         android:layout_marginTop="17dp"
@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/screenshot_2024_06_21_040332" />
 
     <TextView
-        android:id="@+id/tvRecap"
+        android:id="@+id/tvSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="177dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ivLogFood" />
 
     <TextView
-        android:id="@+id/tvPenjelasan3"
+        android:id="@+id/tvPenjelasan4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

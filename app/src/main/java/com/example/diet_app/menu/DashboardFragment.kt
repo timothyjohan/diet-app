@@ -23,6 +23,9 @@ import kotlinx.coroutines.launch
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var email: String
+    private lateinit var password: String
+    private lateinit var name: String
+    private lateinit var gender: String
     private val coroutine = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
     val navArgs: DashboardFragmentArgs by navArgs()
@@ -42,8 +45,12 @@ class DashboardFragment : Fragment() {
             try {
                 try {
                     email = navArgs.email.toString()
+                    password = navArgs.password.toString()
+                    name = navArgs.name.toString()
+                    gender = navArgs.gender.toString()
+                    val jk = if(gender=="Male"){true}else{false}
                     Log.d("email", email)
-//                    db.currentDao().update()
+                    db.currentDao().update(CurrentUser(1, email, password, name, jk))
                 }catch (e:Exception){
                     val curr = db.currentDao().getUser()
                     email = curr!!.email

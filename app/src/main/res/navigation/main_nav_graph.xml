@@ -57,6 +57,18 @@
         <action
             android:id="@+id/action_dashboardFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
+        <argument
+            android:name="password"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="gender"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
