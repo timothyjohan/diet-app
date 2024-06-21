@@ -63,7 +63,7 @@ class LoginFragment : Fragment() {
                         }else{
                             val user:CurrentUser = postRepository.getUser(email)
                             db.currentDao().update(CurrentUser(1, email, password, user.name, user.gender))
-                            Log.d("NamaUser", user.email)
+//                            Log.d("NamaUser", user.email)
                             val jk = if(user.gender){"Male"}else{"Female"}
                             handler.post {
                                 Toast.makeText(requireContext(), "Logged in", Toast.LENGTH_SHORT).show()

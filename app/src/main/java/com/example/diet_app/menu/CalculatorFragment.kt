@@ -12,10 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.room.Room
+import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentCalculatorBinding
+import com.example.diet_app.post.PostFragmentArgs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +27,8 @@ class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
     private lateinit var db: AppDatabase
     private lateinit var userEmail: String
-    private var user: User? = null
+    private var user: CurrentUser? = null
+    val navArgs: CalculatorFragmentArgs by navArgs()
 
     private val viewModel: CalculatorViewModel by viewModels()
 
@@ -41,8 +45,8 @@ class CalculatorFragment : Fragment() {
             AppDatabase::class.java, "DBCalorieCraft"
         ).fallbackToDestructiveMigration().build()
 
-        // Get the arguments passed from DashboardFragment
-        userEmail = CalculatorFragmentArgs.fromBundle(requireArguments()).email
+        val email = navArgs.email
+
 
         setupActivitySpinner()
         loadUserData()
@@ -73,7 +77,7 @@ class CalculatorFragment : Fragment() {
 
     private fun loadUserData() {
         CoroutineScope(Dispatchers.IO).launch {
-            user = db.userDao().getUserByEmail(userEmail)
+            user = db.currentDao().getUser()
             if (user == null) {
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()

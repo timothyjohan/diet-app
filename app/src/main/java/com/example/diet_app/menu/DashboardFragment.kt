@@ -24,10 +24,10 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var email: String
     private lateinit var password: String
-    private lateinit var name: String
     private lateinit var gender: String
     private val coroutine = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
+    var name: String = ""
     val navArgs: DashboardFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -49,11 +49,14 @@ class DashboardFragment : Fragment() {
                     name = navArgs.name.toString()
                     gender = navArgs.gender.toString()
                     val jk = if(gender=="Male"){true}else{false}
-                    Log.d("email", email)
+//                    Log.d("email", email)
                     db.currentDao().update(CurrentUser(1, email, password, name, jk))
                 }catch (e:Exception){
                     val curr = db.currentDao().getUser()
                     email = curr!!.email
+                    password = curr.password
+                    name = curr.name
+                    gender = if(curr.gender){"Male"}else{"Female"}
                 }
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Loaded ${email}", Toast.LENGTH_SHORT).show()
@@ -81,8 +84,7 @@ class DashboardFragment : Fragment() {
             } else {
                 setupForRegisteredUser(it)
             }
-            binding.tvWelcome.text = "Welcome, $email"
-
+            binding.tvWelcome.text = "Welcome, $name"
         }
     } private fun setupForDummyUser() {
         binding.btSettings.setOnClickListener {
@@ -95,6 +97,9 @@ class DashboardFragment : Fragment() {
             navigateToLoginFragment()
         }
         binding.btnFood.setOnClickListener {
+            navigateToLoginFragment()
+        }
+        binding.btTutorial.setOnClickListener {
             navigateToLoginFragment()
         }
     }
@@ -113,6 +118,10 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.btSettings.setOnClickListener {
+            val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
+            findNavController().navigate(action)
+        }
+        binding.btTutorial.setOnClickListener {
             val action = DashboardFragmentDirections.actionDashboardFragmentToSettingsFragment(email)
             findNavController().navigate(action)
         }

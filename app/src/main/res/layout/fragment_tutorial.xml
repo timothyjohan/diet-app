@@ -40,8 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="81dp"
-        android:text="TextView"
+        android:layout_marginEnd="10dp"
+        android:text="Setting difungsikan \nuntuk mengatur konfigurasi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSettings" />
 
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:text="TDEE Calculator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCalculator" />
 
@@ -156,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:text="Recap difungsikan untuk \nmelihat kesuksesan\n diet setiap harinya"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRecap" />
 </androidx.constraintlayout.widget.ConstraintLayout>
