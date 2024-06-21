@@ -24,10 +24,10 @@ class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var email: String
     private lateinit var password: String
-    var name: String = ""
     private lateinit var gender: String
     private val coroutine = CoroutineScope(Dispatchers.IO)
     private lateinit var db: AppDatabase
+    var name: String = ""
     val navArgs: DashboardFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -49,7 +49,7 @@ class DashboardFragment : Fragment() {
                     name = navArgs.name.toString()
                     gender = navArgs.gender.toString()
                     val jk = if(gender=="Male"){true}else{false}
-                    Log.d("email", email)
+//                    Log.d("email", email)
                     db.currentDao().update(CurrentUser(1, email, password, name, jk))
                 }catch (e:Exception){
                     val curr = db.currentDao().getUser()

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Room
 import com.example.diet_app.ClassConfig
+import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.Config
 import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.User
@@ -62,10 +63,11 @@ class SettingsFragment : Fragment() {
 
         binding.btDelete.setOnClickListener {
             coroutine.launch {
-                val existingUser = db.userDao().getUser(email)
-                val user = User(existingUser!!.email, existingUser.password, existingUser.name, existingUser.gender)
-                db.userDao().delete(user)
+//                val existingUser = db.userDao().getUser(email)
+//                val user = User(existingUser!!.email, existingUser.password, existingUser.name, existingUser.gender)
+//                db.userDao().delete(user)
                 db.currentDao().update(CurrentUser(1, "dummy123", "dummy123", "dummy123", true))
+                SosmedApplication.postRepository.deleteUser(email)
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
@@ -76,8 +78,11 @@ class SettingsFragment : Fragment() {
         binding.btLogout.setOnClickListener(){
             coroutine.launch {
                 db.currentDao().update(CurrentUser(1, "dummy123", "dummy123", "dummy123", true))
+                requireActivity().runOnUiThread(){
+                    Toast.makeText(requireContext(), "Log out", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
             }
-            findNavController().popBackStack()
         }
     }
 
