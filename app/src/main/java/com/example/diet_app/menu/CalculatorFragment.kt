@@ -1,5 +1,6 @@
 package com.example.diet_app.menu
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Room
@@ -18,7 +18,6 @@ import com.example.diet_app.data.CurrentUser
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentCalculatorBinding
-import com.example.diet_app.post.PostFragmentArgs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +46,6 @@ class CalculatorFragment : Fragment() {
 
         val email = navArgs.email
 
-
         setupActivitySpinner()
         loadUserData()
 
@@ -56,7 +54,8 @@ class CalculatorFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()  // Navigate back to the previous fragment
+            saveTDEEToSharedPreferences()
+            findNavController().navigateUp()
         }
 
         return binding.root
@@ -102,6 +101,15 @@ class CalculatorFragment : Fragment() {
         }
 
         viewModel.calculateTDEE(weight, height, user!!.gender, activityLevel)
+    }
+
+    private fun saveTDEEToSharedPreferences() {
+        val tdeeResult = binding.tvResultPrint.text.toString()
+        val sharedPref = activity?.getSharedPreferences("TDEE_PREF", Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString("TDEE_RESULT", tdeeResult)
+            apply()
+        }
     }
 }
 
