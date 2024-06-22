@@ -3,6 +3,7 @@ package com.example.diet_app.menu
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import androidx.room.Room
 import com.example.diet_app.R
 import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.CalendarRequest
+import com.example.diet_app.data.CalendarResponse
 import com.example.diet_app.data.User
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.databinding.FragmentRecapDailyBinding
@@ -33,12 +35,14 @@ class RecapDailyFragment : Fragment() {
     private var users: ArrayList<User> = ArrayList()
     private lateinit var db: AppDatabase
     private val postRepository = SosmedApplication.postRepository
+    val arrayTemp:ArrayList<String> = ArrayList()
     val navArgs: RecapDailyFragmentArgs by navArgs()
     @RequiresApi(Build.VERSION_CODES.O)
     var month = LocalDate.now().monthValue.toString()
-    var before = 1
     @RequiresApi(Build.VERSION_CODES.O)
-    var after = 1
+    var before = "2024-06-30"
+    @RequiresApi(Build.VERSION_CODES.O)
+    var after = "2024-06-01"
 
     private lateinit var daysOfWeekAdapter: DaysOfWeekAdapter
     private lateinit var datesAdapter: DatesAdapter
@@ -89,16 +93,50 @@ class RecapDailyFragment : Fragment() {
         }
 
         coroutine.launch {
+//            Log.d("test", "email: ${navArgs.email}")
+//            Log.d("test", "before: ${before}")
+//            Log.d("test", "after: ${after}")
             val calendarRequest = CalendarRequest(navArgs.email, before, after)
             val response = postRepository.getDates(calendarRequest)
+//            Log.d("test","${response.body()}")
+            var newList:List<CalendarResponse>? = response.body()
+            val groupedAndSummedList = groupByDayAndSumCalories(newList)
+            Log.d("test","${groupedAndSummedList}")
+            val daysWithCalories = groupedAndSummedList.associate { it.first to it.second }
+            if(newList.isNullOrEmpty()){
+
+            }
+            else{
+               for(i in newList){
+                   arrayTemp.add((i.date).substring(8,10))
+//                   Log.d("test","${(i.date).substring(8,10)}")
+               }
+
+            }
+            val dummyList = arrayOf(0, 0, 0) // ada baiknya ini tidak disentuh :)
             for (i in 1..daysInMonth) {
                 val date = firstDayOfMonth.withDayOfMonth(i)
-                val color = when {
-                    response.body()?.listTarget?.getOrNull(i - 1) == true -> Color.RED
-                    else -> Color.WHITE
+                val color = if (daysWithCalories.containsKey(i.toString())) {
+                    val calories = daysWithCalories[i.toString()]!!
+                    when {
+                        calories > 1000 -> Color.GREEN
+                        calories < 800 -> Color.RED
+                        else -> Color.WHITE
+                    }
+                } else {
+                    if (i == dummyList[2]) Color.RED else Color.WHITE // ada baiknya ini tidak disentuh :)
                 }
                 days.add(Day(date, color))
             }
+//            for (i in 1..daysInMonth) {
+//                val date = firstDayOfMonth.withDayOfMonth(i)
+//                val color = when {
+////                    response.body()!!.
+////                    response.body()?.listTarget?.getOrNull(i - 1) == true -> Color.RED
+//                    else -> Color.WHITE
+//                }
+//                days.add(Day(date, color))
+//            }
 
             requireActivity().runOnUiThread {
                 datesAdapter = DatesAdapter(days) { day ->
@@ -115,5 +153,17 @@ class RecapDailyFragment : Fragment() {
         currentMonth = currentMonth.plusMonths(monthOffset)
         binding.monthTextView.text = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
         setupRecyclerView()
+    }
+
+    fun groupByDayAndSumCalories(calendarResponses: List<CalendarResponse>?): List<Pair<String, Double>> {
+        if (calendarResponses == null) return emptyList()
+
+        val groupedByDay = calendarResponses.groupBy { it.date.substring(8, 10) }
+        val summedCaloriesByDay = groupedByDay.map { (day, responses) ->
+            val totalCalories = responses.sumOf { it.calories }
+            day to totalCalories
+        }
+
+        return summedCaloriesByDay
     }
 }

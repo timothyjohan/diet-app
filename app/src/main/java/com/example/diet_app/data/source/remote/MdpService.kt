@@ -42,7 +42,7 @@ interface MdpService {
     suspend fun delete(@Path("id") id:Int):Post
 
     @GET("foods/dates")
-    suspend fun getDates(@Query("email") email: CalendarRequest): Response<CalendarResponse>
+    suspend fun getDates(@Query("email") email: String, @Query("before") before:String, @Query("after")after:String): Response<List<CalendarResponse>>
     @GET("foods/dates")
     suspend fun getDatesReport(@Query("email") datesReport: CalendarRequest): Response<List<String>>
 }
