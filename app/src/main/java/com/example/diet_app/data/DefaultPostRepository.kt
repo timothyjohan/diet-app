@@ -18,7 +18,7 @@ class DefaultPostRepository(
         return remoteDataSource.getUser(email);
     }
 
-    suspend fun deleteUser(email:String): CurrentUser {
+    suspend fun deleteUser(email:String): String {
         return remoteDataSource.deleteUser(email);
     }
 //    @GET("user/getUser")

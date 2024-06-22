@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Room
 import com.example.diet_app.ClassConfig
+import com.example.diet_app.R
 import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.Config
 import com.example.diet_app.data.CurrentUser
@@ -71,7 +72,7 @@ class SettingsFragment : Fragment() {
                 SosmedApplication.postRepository.deleteUser(email)
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "Account has been deleted", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.dashboardFragment)
                 }
             }
         }
