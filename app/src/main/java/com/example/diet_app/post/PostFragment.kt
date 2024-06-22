@@ -16,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diet_app.R
 import com.example.diet_app.SosmedApplication
+import com.example.diet_app.data.source.NutritionResponse
 import com.example.diet_app.data.source.remote.MdpService
 import com.example.diet_app.databinding.FragmentPostBinding
 import kotlinx.coroutines.CoroutineScope
@@ -78,6 +79,10 @@ class PostFragment : Fragment() {
                 // Do nothing
             }
         })
+        binding.processBtnPost.setOnClickListener {
+            fetchNutritions(binding.titleEtPost.text.toString())
+//            Log.d("anuuuu", binding.spinner.toString())
+        }
     }
     private fun fetchAutocomplete(query: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -91,6 +96,25 @@ class PostFragment : Fragment() {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.spinner.adapter = adapter
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun fetchNutritions(query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+
+//                val response = postRepository.getAllPosts().getAllPosts(query)
+                val response:NutritionResponse = postRepository.getNutritions(q = query)
+//                val allFoodNames = response.common.map { it.food_name } + response.branded.map { it.food_name }
+                binding.textView7.text = "Carbohydrate: ${response.carbohydrate}"
+                binding.textView8.text = "Calories: ${response.calories}"
+                binding.textView9.text = "Fats: ${response.fats}"
+                binding.textView10.text = "Protein: ${response.protein}"
+//                Log.d("nutrisari", response.calories.toString())
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }

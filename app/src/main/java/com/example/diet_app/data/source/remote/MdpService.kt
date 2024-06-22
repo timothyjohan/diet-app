@@ -7,6 +7,7 @@ import com.example.diet_app.data.LoginRequest
 import com.example.diet_app.data.Post
 import com.example.diet_app.data.RegisterRequest
 import com.example.diet_app.data.RegisterResponse
+import com.example.diet_app.data.source.NutritionResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -45,4 +46,7 @@ interface MdpService {
     suspend fun getDates(@Query("email") email: String, @Query("before") before:String, @Query("after")after:String): Response<List<CalendarResponse>>
     @GET("foods/dates")
     suspend fun getDatesReport(@Query("email") datesReport: CalendarRequest): Response<List<String>>
+
+    @GET("3rdparty/nutritions")
+    suspend fun getNutritions(@Query("q") q:String = ""):NutritionResponse
 }

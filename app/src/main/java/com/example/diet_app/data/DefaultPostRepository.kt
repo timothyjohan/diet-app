@@ -1,5 +1,6 @@
 package com.example.diet_app.data
 
+import com.example.diet_app.data.source.NutritionResponse
 import com.example.diet_app.data.source.local.AppDatabase
 import com.example.diet_app.data.source.remote.MdpService
 import retrofit2.Response
@@ -41,6 +42,9 @@ class DefaultPostRepository(
     }
     suspend fun getDatesReport(calendarRequest:CalendarRequest): Response<List<String>> {
         return remoteDataSource.getDatesReport(calendarRequest)
+    }
+    suspend fun getNutritions(q:String): NutritionResponse {
+        return remoteDataSource.getNutritions(q)
     }
 
 //    suspend fun addUser(email:String, password:String, name:String,gender:Boolean, ):Response<RegisterRequest> {
