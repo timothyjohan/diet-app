@@ -100,6 +100,9 @@ class RecapDailyFragment : Fragment() {
             val response = postRepository.getDates(calendarRequest)
 //            Log.d("test","${response.body()}")
             var newList:List<CalendarResponse>? = response.body()
+            val groupedAndSummedList = groupByDayAndSumCalories(newList)
+            Log.d("test","${groupedAndSummedList}")
+            val daysWithCalories = groupedAndSummedList.associate { it.first to it.second }
             if(newList.isNullOrEmpty()){
 
             }
@@ -110,9 +113,19 @@ class RecapDailyFragment : Fragment() {
                }
 
             }
+            val dummyList = arrayOf(0, 0, 0) // ada baiknya ini tidak disentuh :)
             for (i in 1..daysInMonth) {
                 val date = firstDayOfMonth.withDayOfMonth(i)
-                var color = if(i == arrayTemp[2].toInt()){Color.RED}else{Color.WHITE}
+                val color = if (daysWithCalories.containsKey(i.toString())) {
+                    val calories = daysWithCalories[i.toString()]!!
+                    when {
+                        calories > 1000 -> Color.GREEN
+                        calories < 800 -> Color.RED
+                        else -> Color.WHITE
+                    }
+                } else {
+                    if (i == dummyList[2]) Color.RED else Color.WHITE // ada baiknya ini tidak disentuh :)
+                }
                 days.add(Day(date, color))
             }
 //            for (i in 1..daysInMonth) {
@@ -140,5 +153,17 @@ class RecapDailyFragment : Fragment() {
         currentMonth = currentMonth.plusMonths(monthOffset)
         binding.monthTextView.text = currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
         setupRecyclerView()
+    }
+
+    fun groupByDayAndSumCalories(calendarResponses: List<CalendarResponse>?): List<Pair<String, Double>> {
+        if (calendarResponses == null) return emptyList()
+
+        val groupedByDay = calendarResponses.groupBy { it.date.substring(8, 10) }
+        val summedCaloriesByDay = groupedByDay.map { (day, responses) ->
+            val totalCalories = responses.sumOf { it.calories }
+            day to totalCalories
+        }
+
+        return summedCaloriesByDay
     }
 }
