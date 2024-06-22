@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
+import com.example.diet_app.R
 import com.example.diet_app.SosmedApplication
 import com.example.diet_app.data.RegisterRequest
 import com.example.diet_app.data.RegisterResponse
@@ -73,6 +74,7 @@ class RegisterFragment : Fragment() {
                 if (response.isSuccessful) {
                     val registerResponse = response.body()
                     Toast.makeText(requireContext(), "Registered: ${registerResponse?.name}", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.loginFragment)
                 } else {
                     Toast.makeText(requireContext(), "Failed: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                 }
